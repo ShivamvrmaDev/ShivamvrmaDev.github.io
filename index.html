@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shivam Verma | Android &amp; iOS Developer</title>
+<meta name="description" content="Apps built by Shivam Verma, Android and iOS developer. See the apps and get in touch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5F9; --surface:#FFFFFF; --ink:#1F3864; --ink-soft:#4A5878; --blue:#2E75B5;
+  --line:#D8DFEA; --android:#2F8F5B; --ios:#5A6273; --wall-a:#1F3864; --wall-b:#2E75B5;
+  --ok:#2F8F5B; --err:#B42318;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#0F1828; --surface:#162237; --ink:#E5ECF7; --ink-soft:#A8B4CC; --blue:#79B0E6;
+    --line:#26354F; --android:#5CC28D; --ios:#AEB6C6; --wall-a:#16294A; --wall-b:#2E75B5; --ok:#5CC28D; --err:#F97066;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:80px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+a{color:inherit}
+img{max-width:100%}
+:focus-visible{outline:3px solid var(--blue); outline-offset:3px; border-radius:6px}
+.skip{position:absolute; left:-9999px}
+.skip:focus{left:16px; top:16px; background:var(--surface); padding:8px 12px; z-index:10}
+.wrap{max-width:1120px; margin:0 auto; padding:0 24px}
+
+/* top bar */
+.top{position:sticky; top:0; z-index:5; padding-top:env(safe-area-inset-top,0px);
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:saturate(1.4) blur(10px); -webkit-backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--line)}
+.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px}
+.mark{font-weight:800; font-size:1.05rem; text-decoration:none; letter-spacing:-0.01em}
+.top nav{display:flex; align-items:center; gap:22px}
+.top nav a{text-decoration:none; color:var(--ink-soft); font-weight:500; font-size:.95rem}
+.top nav a:hover{color:var(--ink)}
+.top nav a.cta{color:var(--paper); background:var(--ink); padding:8px 16px; border-radius:999px; font-weight:600}
+.top nav a.cta:hover{background:var(--blue); color:#fff}
+
+/* hero */
+.hero{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:48px; align-items:center; padding:64px 0 80px}
+.hero h1{font-size:clamp(2.7rem, 6.2vw, 4.6rem); line-height:1; letter-spacing:-0.035em; font-weight:800; margin:0 0 14px}
+.role{font-size:1.2rem; font-weight:600; color:var(--blue); margin:0 0 20px}
+.intro{font-size:1.15rem; color:var(--ink-soft); max-width:32em; margin:0 0 28px}
+.actions{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:22px}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 20px; border-radius:999px; font-weight:600; font-size:.98rem;
+  text-decoration:none; border:1.5px solid var(--ink); color:var(--ink); background:transparent; cursor:pointer; font-family:inherit; line-height:1.2}
+.btn svg{width:18px; height:18px; flex:none}
+.btn.primary{background:var(--ink); color:var(--paper)}
+.btn:hover{border-color:var(--blue); color:var(--blue)}
+.btn.primary:hover{background:var(--blue); border-color:var(--blue); color:#fff}
+.btn:disabled{opacity:.6; cursor:progress}
+.avail{display:flex; align-items:center; gap:10px; color:var(--ink-soft); font-size:.95rem; margin:0}
+.avail::before{content:""; width:9px; height:9px; border-radius:50%; background:var(--android); box-shadow:0 0 0 4px color-mix(in srgb, var(--android) 22%, transparent)}
+
+/* phone home screen */
+.phone{justify-self:center; width:300px; aspect-ratio:9/19; border-radius:50px; padding:11px; background:var(--ink);
+  box-shadow:0 30px 60px -28px rgba(31,56,100,.55)}
+.screen{position:relative; height:100%; border-radius:40px; overflow:hidden; color:#fff;
+  background:radial-gradient(120% 70% at 85% 100%, var(--wall-b) 0 38%, transparent 38.5%), var(--wall-a)}
+.status{display:flex; justify-content:space-between; align-items:center; padding:14px 26px 0; font-size:13px; font-weight:600}
+.island{width:84px; height:24px; border-radius:20px; background:#000}
+.bars{display:flex; gap:2px; align-items:flex-end; height:11px}
+.bars i{width:3px; background:#fff; border-radius:1px}
+.grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px 6px; padding:30px 16px 0}
+.home-app{display:flex; flex-direction:column; align-items:center; gap:6px; background:none; border:0; color:#fff; cursor:pointer;
+  font:inherit; padding:0; border-radius:14px}
+.home-app .lbl{font-size:10.5px; line-height:1.15; text-align:center; max-width:64px; text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.tile{display:grid; place-items:center; width:54px; height:54px; border-radius:15px; background:var(--c,#2E75B5); color:#fff;
+  font-weight:700; font-size:19px; letter-spacing:-0.02em; object-fit:cover; box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.dock{position:absolute; left:12px; right:12px; bottom:12px; display:flex; justify-content:space-around; padding:12px 10px;
+  border-radius:30px; background:rgba(255,255,255,.16); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px)}
+.dock a{display:grid; place-items:center; width:52px; height:52px; border-radius:15px; background:rgba(255,255,255,.92); color:#1F3864}
+.dock svg{width:24px; height:24px}
+@media (prefers-reduced-motion: no-preference){
+  .grid .home-app{animation:pop .5s cubic-bezier(.2,.9,.3,1.3) both; animation-delay:calc(var(--i) * 70ms + 150ms)}
+  @keyframes pop{from{opacity:0; transform:scale(.6)} to{opacity:1; transform:none}}
+  .tile{transition:transform .2s}
+  .home-app:hover .tile{transform:translateY(-2px)}
+}
+
+/* sections */
+.block{padding:72px 0; border-top:1px solid var(--line)}
+.block h2{font-size:clamp(1.7rem,3vw,2.2rem); letter-spacing:-0.02em; line-height:1.15; margin:0 0 8px}
+.sub{color:var(--ink-soft); margin:0 0 28px; max-width:40em}
+.sec-head{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:18px; margin-bottom:8px}
+.filter{display:inline-flex; padding:4px; border-radius:999px; background:var(--surface); border:1px solid var(--line); margin-bottom:28px}
+.filter button{border:0; background:none; font:inherit; font-weight:600; font-size:.92rem; color:var(--ink-soft); padding:8px 16px;
+  border-radius:999px; cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--ink); color:var(--paper)}
+
+/* app rows */
+.app{display:grid; grid-template-columns:72px minmax(0,1fr); gap:22px; padding:30px 0; border-top:1px solid var(--line); transition:background-color .6s}
+.app:first-child{border-top:0; padding-top:4px}
+.app.flash{background:color-mix(in srgb, var(--blue) 10%, transparent)}
+.app .tile{width:72px; height:72px; border-radius:19px; font-size:24px}
+.app-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px}
+.app h3{font-size:1.3rem; margin:0; letter-spacing:-0.01em}
+.plat{display:inline-flex; align-items:center; gap:6px; font-size:.86rem; font-weight:600; color:var(--plat)}
+.plat::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--plat)}
+.cat{font-size:.9rem; color:var(--ink-soft)}
+.app .sum{margin:8px 0 6px; color:var(--ink-soft); max-width:46em}
+.tech{margin:0 0 14px; font-size:.92rem; color:var(--ink-soft)}
+.tech b{color:var(--ink); font-weight:600}
+.links{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+.links a{font-size:.9rem; font-weight:600; padding:8px 14px; border-radius:999px; border:1.5px solid var(--line); text-decoration:none}
+.links a:hover{border-color:var(--blue); color:var(--blue)}
+.note{font-size:.9rem; color:var(--ink-soft); margin:0}
+details.more{margin-top:12px}
+details.more summary{cursor:pointer; font-weight:600; font-size:.93rem; color:var(--blue); width:max-content}
+details.more ul{margin:12px 0 0; padding-left:20px; max-width:46em; color:var(--ink-soft)}
+details.more li{margin:4px 0}
+.shots{display:flex; gap:14px; overflow-x:auto; padding:16px 2px 6px; scroll-snap-type:x mandatory}
+.shots img{height:380px; width:auto; border-radius:20px; border:1px solid var(--line); scroll-snap-align:start; background:var(--surface)}
+
+/* experience: short */
+.jobs{list-style:none; margin:20px 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:36px}
+.job h3{margin:0; font-size:1.15rem}
+.job .r{margin:2px 0 10px; color:var(--blue); font-weight:600; font-size:.98rem}
+.job .r span{color:var(--ink-soft); font-weight:500; font-variant-numeric:tabular-nums}
+.job ul{margin:0; padding-left:20px; color:var(--ink-soft)}
+.job li{margin:5px 0}
+
+/* contact */
+.contact{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:48px; align-items:start}
+.mail{display:inline-block; max-width:100%; font-size:clamp(1.2rem, 2.5vw, 1.85rem); font-weight:800; letter-spacing:-0.02em; text-decoration-thickness:3px;
+  text-underline-offset:8px; text-decoration-color:var(--blue); margin:6px 0 24px; overflow-wrap:anywhere}
+.mail:hover{color:var(--blue)}
+.direct{display:flex; flex-wrap:wrap; gap:10px}
+form.msg{background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:24px}
+form.msg h3{margin:0 0 4px; font-size:1.15rem}
+form.msg p.hint{margin:0 0 6px; color:var(--ink-soft); font-size:.92rem}
+.fld{display:block; margin-top:14px}
+.fld span{display:block; font-weight:600; font-size:.92rem; margin-bottom:6px}
+.fld input, .fld textarea{width:100%; font:inherit; color:var(--ink); background:var(--paper); border:1.5px solid var(--line); border-radius:12px; padding:11px 13px}
+.fld textarea{min-height:120px; resize:vertical}
+.fld input:focus, .fld textarea:focus{outline:none; border-color:var(--blue)}
+.hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+form.msg .btn{margin-top:18px; width:100%}
+.fstatus{margin:12px 0 0; font-size:.93rem; font-weight:500; min-height:1.4em}
+.fstatus.ok{color:var(--ok)} .fstatus.err{color:var(--err)}
+footer{border-top:1px solid var(--line); padding:26px 0 36px; color:var(--ink-soft); font-size:.9rem}
+footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px}
+
+@media (max-width: 860px){
+  .hero{grid-template-columns:1fr; padding:40px 0 60px; gap:44px}
+  .contact{grid-template-columns:1fr; gap:32px}
+}
+@media (max-width: 520px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  .top nav{gap:14px}
+  .top nav a.hide-sm{display:none}
+  .phone{width:272px}
+  .grid{padding:26px 12px 0; gap:18px 4px}
+  .grid .tile{width:48px; height:48px; border-radius:13px; font-size:17px}
+  .app{grid-template-columns:56px minmax(0,1fr); gap:16px}
+  .app .tile{width:56px; height:56px; border-radius:15px; font-size:19px}
+  .shots img{height:300px}
+  form.msg{padding:18px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#apps">Skip to apps</a>
+<header class="top"><div class="wrap">
+  <a class="mark" href="#top" id="mark">SV</a>
+  <nav aria-label="Sections"><a href="#apps">Apps</a><a href="#experience" class="hide-sm">Experience</a><a href="#contact" class="cta">Get in touch</a></nav>
+</div></header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero" aria-labelledby="name">
+      <div>
+        <h1 id="name"></h1>
+        <p class="role" id="role"></p>
+        <p class="intro" id="intro"></p>
+        <div class="actions">
+          <a class="btn primary" href="#contact">Get in touch</a>
+          <a class="btn" href="#apps">See my apps</a>
+        </div>
+        <p class="avail" id="avail"></p>
+      </div>
+      <div class="phone" role="region" aria-label="My apps, shown as a phone home screen">
+        <div class="screen">
+          <div class="status"><span id="clock">9:41</span><span class="island"></span>
+            <span class="bars" aria-hidden="true"><i style="height:4px"></i><i style="height:6px"></i><i style="height:8px"></i><i style="height:11px"></i></span></div>
+          <div class="grid" id="homeGrid"></div>
+          <nav class="dock" id="dock" aria-label="Contact shortcuts"></nav>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="block" id="apps"><div class="wrap">
+    <div class="sec-head">
+      <div><h2>Apps I've built</h2><p class="sub" id="appsSub"></p></div>
+      <div class="filter" role="group" aria-label="Show apps for">
+        <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="Android" aria-pressed="false">Android</button>
+        <button type="button" data-f="iOS" aria-pressed="false">iOS</button>
+      </div>
+    </div>
+    <div id="appList"></div>
+  </div></section>
+
+  <section class="block" id="experience"><div class="wrap">
+    <h2>Experience</h2>
+    <ol class="jobs" id="expList"></ol>
+  </div></section>
+
+  <section class="block" id="contact"><div class="wrap">
+    <div class="contact">
+      <div>
+        <h2>Get in touch</h2>
+        <p class="sub" id="contactSub">Hiring for Android or iOS? Send a message and I'll reply by email, or reach me directly.</p>
+        <a class="mail" id="bigMail"></a>
+        <div class="direct" id="direct"></div>
+      </div>
+      <form class="msg" id="msgForm" novalidate>
+        <h3>Send a message</h3>
+        <p class="hint">It goes straight to my inbox.</p>
+        <label class="fld"><span>Your name</span><input name="name" autocomplete="name" required></label>
+        <label class="fld"><span>Your email</span><input name="email" type="email" autocomplete="email" required></label>
+        <label class="fld"><span>Message</span><textarea name="message" required placeholder="The role, your company, and how to reach you"></textarea></label>
+        <label class="hp" aria-hidden="true">Leave this empty<input name="_honey" tabindex="-1" autocomplete="off"></label>
+        <button class="btn primary" type="submit" id="sendBtn">Send message</button>
+        <p class="fstatus" id="fstatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div></section>
+</main>
+<footer><div class="wrap"><span id="copy"></span><span id="updated"></span></div></footer>
+
+<script type="application/json" id="fallback-data">{"updated": "2026-10-01", "profile": {"name": "Shivam Verma", "title": "Android & iOS Developer", "intro": "I build native Android and iOS apps, from the first screen to the store release. 4+ years, 25+ production apps, and a 20% revenue lift from ads and in-app purchases.", "availability": "Open to Android and iOS developer roles", "location": "India", "email": "shivam.vrma88@gmail.com", "phone": "", "linkedin": "https://www.linkedin.com/in/shivam-verma-055332245/", "github": "", "resume": "", "whatsapp": "", "formEmail": "shivam.vrma88@gmail.com"}, "apps": [{"name": "AI Cleaner", "shortName": "AI Cleaner", "platform": "iOS", "category": "Storage cleaner", "summary": "Finds blurry photos, duplicate screenshots and redundant contacts so people can free up storage in a few taps.", "details": ["Built an iOS utility app using OpenCV to detect blurry photos, duplicate screenshots and redundant contacts.", "Added features to review and delete unwanted media, freeing up device storage and improving performance."], "tech": ["Swift", "SwiftUI", "OpenCV", "Core Data", "Alamofire", "MVVM"], "color": "#4C5FD5", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Kid Safe", "shortName": "Kid Safe", "platform": "Android", "category": "Parental control", "summary": "Lets parents set limits on a child's phone and monitor usage across devices, with real-time alerts.", "details": ["Built a parental control app that lets parents limit and monitor a child's phone usage across multiple devices.", "Implemented real-time alerts and app usage tracking logs for complete device monitoring."], "tech": ["Kotlin", "MVVM", "Dagger", "Retrofit", "FCM"], "color": "#2E9E6B", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Medicine & Health Reminder", "shortName": "Medicine", "platform": "iOS", "category": "Health", "summary": "Medicine reminders with BP tracking and health checks, plus simple flows to log readings and schedule doses.", "details": ["Developed a health utility app with medicine reminders, BP tracking and health check features.", "Implemented user-friendly flows to record health information and schedule reminders."], "tech": ["Swift", "SwiftUI", "UIKit", "Core Data", "Alamofire", "MVVM", "Firebase"], "color": "#C2416B", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Save Status", "shortName": "Save Status", "platform": "Android", "category": "Media", "summary": "Download statuses and edit images for 4 major social media platforms.", "details": ["Developed a media download and image editing app supporting 4 major social media platforms.", "Optimized file handling and local storage for smooth memory management during media processing."], "tech": ["Kotlin", "MVVM", "Data Binding"], "color": "#D99A16", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Doc Reader", "shortName": "Doc Reader", "platform": "iOS", "category": "Documents", "summary": "Pick any document, then duplicate, split, lock or unlock PDFs, or save pages as images.", "details": ["Built a document utility app that lets users pick documents and perform multiple PDF operations.", "Implemented duplicating, splitting and locking/unlocking PDFs, and saving PDF pages as images."], "tech": ["Swift", "UIKit", "SwiftUI", "PDF handling", "File management", "MVVM"], "color": "#2E75B5", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Asset First", "shortName": "Asset First", "platform": "Android", "category": "Enterprise", "summary": "Inventory management for companies using RFID tags and Bluetooth-connected scanners.", "details": ["Developed an Android app that helps companies manage their inventory using RFID tags and external scanners.", "Integrated external RFID scanners to read tags and save asset data reliably through REST APIs."], "tech": ["Java", "Retrofit", "REST API", "RFID", "BLE"], "color": "#0E7C86", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": "Built for a client, not on public app stores."}, {"name": "Attendance Management", "shortName": "Attendance", "platform": "Android", "category": "Enterprise", "summary": "Employee attendance with NFC tags and readers, with records stored on the device.", "details": ["Developed an Android app that efficiently handles employee attendance using NFC tags and readers.", "Stored attendance records locally using Room (SQLite) database."], "tech": ["Java", "Room (SQLite)", "NFC"], "color": "#5E7A8C", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": "Built for a client, not on public app stores."}], "experience": [{"company": "Quantum 4u Lab", "role": "Software Developer", "start": "Feb 2024", "end": "Present", "points": ["Worked on 18 native Android and iOS apps and led projects from scratch to production with junior and senior developers.", "Increased app revenue by 20% with new monetization strategies, ads and In-App Purchase scenarios.", "Drove product discussions, new app ideas and app flows from concept to launch."]}, {"company": "Ruddersoft Solutions", "role": "Android App Developer", "start": "Sep 2022", "end": "Jan 2024", "points": ["Built and deployed 7+ Android and Flutter apps for enterprise clients, including RFID devices connected over BLE.", "Resolved 12 critical production issues, improving app stability."]}]}</script>
+<script>
+(function(){
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const safeUrl = (u) => { u = String(u || "").trim(); return /^(https?:|mailto:|tel:|images\/|files\/)/i.test(u) ? u : ""; };
+  const digits = (s) => String(s || "").replace(/[^0-9]/g, "");
+  const ICON = {
+    mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
+    li:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21h-4v-4.98c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.92 1.3-1.92 2.63V21h-4V9.75Z"/></svg>',
+    wa:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.17-1.5A9.92 9.92 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.07.89.9-2.99-.2-.31a8.2 8.2 0 1 1 6.85 3.74Zm4.5-6.13c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.79.97-.14.16-.29.18-.54.06a6.7 6.7 0 0 1-3.32-2.9c-.25-.43.25-.4.72-1.33.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.41-.56-.42h-.48a.92.92 0 0 0-.66.31 2.78 2.78 0 0 0-.87 2.07 4.83 4.83 0 0 0 1.01 2.56 11.04 11.04 0 0 0 4.23 3.73c1.57.68 2.19.74 2.98.62.48-.07 1.46-.6 1.67-1.18.2-.58.2-1.08.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>',
+    phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>',
+    doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>',
+    gh:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>'
+  };
+  const PLAT = { Android:"var(--android)", iOS:"var(--ios)", Both:"var(--blue)" };
+  const platLabel = (p) => p === "Both" ? "Android & iOS" : p;
+  let D = null;
+
+  function initials(name){
+    const w = String(name || "").replace(/[^A-Za-z0-9 ]/g, " ").trim().split(/\s+/);
+    return ((w[0] || "")[0] || "").toUpperCase() + ((w[1] || "")[0] || "").toUpperCase();
+  }
+  function tile(app){
+    const src = safeUrl(app.icon);
+    if (src) return '<img class="tile" src="' + esc(src) + '" alt="">';
+    return '<span class="tile" style="--c:' + esc(app.color || "#2E75B5") + '" aria-hidden="true">' + esc(initials(app.name)) + '</span>';
+  }
+  function slug(s, i){ return "app-" + (String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || i); }
+
+  async function load(){
+    try {
+      const r = await fetch("data.json?v=" + Date.now(), { cache: "no-store" });
+      if (!r.ok) throw new Error(r.status);
+      return await r.json();
+    } catch (e) {
+      return JSON.parse(document.getElementById("fallback-data").textContent);
+    }
+  }
+
+  function directLinks(p){
+    const out = [];
+    const wa = digits(p.whatsapp);
+    if (wa) out.push(['https://wa.me/' + wa + '?text=' + encodeURIComponent("Hi " + (p.name || "").split(" ")[0] + ", I saw your portfolio."), "WhatsApp", ICON.wa, true]);
+    if (safeUrl(p.linkedin)) out.push([safeUrl(p.linkedin), "LinkedIn", ICON.li, true]);
+    if (p.phone) out.push(["tel:" + String(p.phone).replace(/[^+0-9]/g, ""), "Call " + p.phone, ICON.phone, false]);
+    if (safeUrl(p.github)) out.push([safeUrl(p.github), "GitHub", ICON.gh, true]);
+    if (safeUrl(p.resume)) out.push([safeUrl(p.resume), "Download resume", ICON.doc, false, true]);
+    return out;
+  }
+
+  function render(d){
+    D = d;
+    const p = d.profile || {};
+    const apps = d.apps || [];
+    document.title = (p.name || "Portfolio") + (p.title ? " | " + p.title : "");
+    $("#mark").textContent = initials(p.name) || "Home";
+    $("#name").textContent = p.name || "";
+    $("#role").textContent = p.title || "";
+    $("#intro").textContent = p.intro || "";
+    $("#avail").textContent = p.availability || "";
+    $("#avail").hidden = !p.availability;
+    const mail = p.email ? "mailto:" + p.email : "";
+
+    // phone
+    $("#homeGrid").innerHTML = apps.map((a, i) =>
+      '<button type="button" class="home-app" style="--i:' + i + '" data-target="' + slug(a.name, i) + '" aria-label="Open ' + esc(a.name) + '">' +
+      tile(a) + '<span class="lbl">' + esc(a.shortName || a.name) + '</span></button>').join("");
+    const dock = [];
+    if (mail) dock.push('<a href="' + esc(mail) + '" aria-label="Email me">' + ICON.mail + '</a>');
+    if (digits(p.whatsapp)) dock.push('<a href="https://wa.me/' + digits(p.whatsapp) + '" target="_blank" rel="noopener" aria-label="WhatsApp">' + ICON.wa + '</a>');
+    if (safeUrl(p.linkedin)) dock.push('<a href="' + esc(safeUrl(p.linkedin)) + '" target="_blank" rel="noopener" aria-label="LinkedIn">' + ICON.li + '</a>');
+    if (safeUrl(p.resume)) dock.push('<a href="' + esc(safeUrl(p.resume)) + '" download aria-label="Download resume">' + ICON.doc + '</a>');
+    $("#dock").innerHTML = dock.slice(0, 4).join("");
+    $("#dock").hidden = dock.length === 0;
+
+    // apps
+    const nA = apps.filter(a => a.platform !== "iOS").length, nI = apps.filter(a => a.platform !== "Android").length;
+    $("#appsSub").textContent = nA + " Android and " + nI + " iOS apps. Tap an icon on the phone to jump to it.";
+    $("#appList").innerHTML = apps.map((a, i) => {
+      const L = a.links || {};
+      const links = [];
+      if (safeUrl(L.playStore)) links.push('<a href="' + esc(safeUrl(L.playStore)) + '" target="_blank" rel="noopener">Google Play</a>');
+      if (safeUrl(L.appStore)) links.push('<a href="' + esc(safeUrl(L.appStore)) + '" target="_blank" rel="noopener">App Store</a>');
+      if (safeUrl(L.demo)) links.push('<a href="' + esc(safeUrl(L.demo)) + '" target="_blank" rel="noopener">Watch demo</a>');
+      if (safeUrl(L.github)) links.push('<a href="' + esc(safeUrl(L.github)) + '" target="_blank" rel="noopener">View code</a>');
+      const shots = (a.screenshots || []).map(safeUrl).filter(Boolean);
+      const det = (a.details || []).filter(Boolean);
+      const more = (det.length || shots.length) ?
+        '<details class="more"><summary>More about this app</summary>' +
+        (det.length ? '<ul>' + det.map(x => '<li>' + esc(x) + '</li>').join("") + '</ul>' : "") +
+        (shots.length ? '<div class="shots">' + shots.map((s, k) => '<img loading="lazy" src="' + esc(s) + '" alt="' + esc(a.name) + ' screen ' + (k + 1) + '">').join("") + '</div>' : "") +
+        '</details>' : "";
+      return '<article class="app" id="' + slug(a.name, i) + '" data-p="' + esc(a.platform) + '">' + tile(a) +
+        '<div><div class="app-head"><h3>' + esc(a.name) + '</h3>' +
+        '<span class="plat" style="--plat:' + (PLAT[a.platform] || "var(--blue)") + '">' + esc(platLabel(a.platform)) + '</span>' +
+        (a.category ? '<span class="cat">' + esc(a.category) + '</span>' : "") + '</div>' +
+        '<p class="sum">' + esc(a.summary) + '</p>' +
+        ((a.tech || []).length ? '<p class="tech"><b>Built with</b> ' + esc(a.tech.join(", ")) + '</p>' : "") +
+        (links.length ? '<div class="links">' + links.join("") + '</div>' : (a.note ? '<p class="note">' + esc(a.note) + '</p>' : "")) +
+        more + '</div></article>';
+    }).join("") || '<p class="sub">No apps added yet.</p>';
+
+    // experience (short)
+    const jobs = d.experience || [];
+    $("#experience").hidden = jobs.length === 0;
+    $("#expList").innerHTML = jobs.map(j =>
+      '<li class="job"><h3>' + esc(j.company) + '</h3><p class="r">' + esc(j.role) +
+      ' <span>' + esc(j.start) + (j.end ? " to " + esc(j.end) : "") + '</span></p>' +
+      '<ul>' + (j.points || []).filter(Boolean).slice(0, 3).map(x => '<li>' + esc(x) + '</li>').join("") + '</ul></li>').join("");
+
+    // contact
+    if (p.email){ $("#bigMail").href = mail; $("#bigMail").textContent = p.email; } else { $("#bigMail").hidden = true; }
+    $("#direct").innerHTML = directLinks(p).map(([href, label, icon, ext, dl]) =>
+      '<a class="btn" href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + (dl ? " download" : "") + '>' + icon + esc(label) + '</a>').join("");
+    $("#msgForm").hidden = !(p.formEmail || p.email);
+
+    $("#copy").textContent = "\u00A9 " + new Date().getFullYear() + " " + (p.name || "");
+    $("#updated").textContent = d.updated ? "Last updated " + new Date(d.updated + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
+    wire();
+  }
+
+  function setFilter(f){
+    document.querySelectorAll(".filter button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === f)));
+    document.querySelectorAll(".app").forEach(el => { const p = el.dataset.p; el.hidden = !(f === "all" || p === f || p === "Both"); });
+  }
+
+  function wire(){
+    document.querySelectorAll(".filter button").forEach(b => b.onclick = () => setFilter(b.dataset.f));
+    document.querySelectorAll(".home-app").forEach(b => b.onclick = () => {
+      setFilter("all");
+      const el = document.getElementById(b.dataset.target);
+      if (!el) return;
+      el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 1400);
+      const det = el.querySelector("details"); if (det) det.open = true;
+    });
+  }
+
+  // contact form: sends through FormSubmit (no backend needed on GitHub Pages)
+  $("#msgForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = e.target, st = $("#fstatus"), btn = $("#sendBtn");
+    const name = f.name.value.trim(), email = f.email.value.trim(), message = f.message.value.trim();
+    if (f._honey.value) return;
+    if (!name || !email || !message){ st.className = "fstatus err"; st.textContent = "Add your name, email and a message, then send."; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ st.className = "fstatus err"; st.textContent = "That email address doesn't look complete. Check it and send again."; f.email.focus(); return; }
+    const p = (D && D.profile) || {};
+    const to = String(p.formEmail || p.email || "").trim();
+    btn.disabled = true; btn.textContent = "Sending…"; st.className = "fstatus"; st.textContent = "";
+    try {
+      const r = await fetch("https://formsubmit.co/ajax/" + to, {
+        method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ name, email, message, _replyto: email, _subject: "Portfolio message from " + name, _template: "table", _captcha: "false" })
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || String(j.success) !== "true") throw new Error(j.message || "");
+      f.reset();
+      st.className = "fstatus ok"; st.textContent = "Message sent. I'll reply to " + email + " soon.";
+    } catch (err){
+      st.className = "fstatus err";
+      st.innerHTML = "The message didn't send. Email me directly at <a href=\"mailto:" + esc(to) + "?subject=" + encodeURIComponent("Portfolio message from " + name) +
+        "&body=" + encodeURIComponent(message) + "\">" + esc(to) + "</a>.";
+    } finally { btn.disabled = false; btn.textContent = "Send message"; }
+  });
+
+  function tick(){ const n = new Date(); $("#clock").textContent = (n.getHours() % 12 || 12) + ":" + String(n.getMinutes()).padStart(2, "0"); }
+  tick(); setInterval(tick, 30000);
+  load().then(render);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+{
+  "updated": "2026-10-01",
+  "profile": {
+    "name": "Shivam Verma",
+    "title": "Android & iOS Developer",
+    "intro": "I build native Android and iOS apps, from the first screen to the store release. 4+ years, 25+ production apps, and a 20% revenue lift from ads and in-app purchases.",
+    "availability": "Open to Android and iOS developer roles",
+    "location": "India",
+    "email": "shivam.vrma88@gmail.com",
+    "phone": "",
+    "linkedin": "https://www.linkedin.com/in/shivam-verma-055332245/",
+    "github": "",
+    "resume": "",
+    "whatsapp": "",
+    "formEmail": "shivam.vrma88@gmail.com"
+  },
+  "apps": [
+    {
+      "name": "AI Cleaner",
+      "shortName": "AI Cleaner",
+      "platform": "iOS",
+      "category": "Storage cleaner",
+      "summary": "Finds blurry photos, duplicate screenshots and redundant contacts so people can free up storage in a few taps.",
+      "details": [
+        "Built an iOS utility app using OpenCV to detect blurry photos, duplicate screenshots and redundant contacts.",
+        "Added features to review and delete unwanted media, freeing up device storage and improving performance."
+      ],
+      "tech": [
+        "Swift",
+        "SwiftUI",
+        "OpenCV",
+        "Core Data",
+        "Alamofire",
+        "MVVM"
+      ],
+      "color": "#4C5FD5",
+      "icon": "",
+      "screenshots": [],
+      "links": {
+        "playStore": "",
+        "appStore": "",
+        "demo": "",
+        "github": ""
+      },
+      "note": ""
+    },
+    {
+      "name": "Kid Safe",
+      "shortName": "Kid Safe",
+      "platform": "Android",
+      "category": "Parental control",
+      "summary": "Lets parents set limits on a child's phone and monitor usage across devices, with real-time alerts.",
+      "details": [
+        "Built a parental control app that lets parents limit and monitor a child's phone usage across multiple devices.",
+        "Implemented real-time alerts and app usage tracking logs for complete device monitoring."
+      ],
+      "tech": [
+        "Kotlin",
+        "MVVM",
+        "Dagger",
+        "Retrofit",
+        "FCM"
+      ],
+      "color": "#2E9E6B",
+      "icon": "",
+      "screenshots": [],
+      "links": {
+        "playStore": "",
+        "appStore": "",
+        "demo": "",
+        "github": ""
+      },
+      "note": ""
+    },
+    {
+      "name": "Medicine & Health Reminder",
+      "shortName": "Medicine",
+      "platform": "iOS",
+      "category": "Health",
+      "summary": "Medicine reminders with BP tracking and health checks, plus simple flows to log readings and schedule doses.",
+      "details": [
+        "Developed a health utility app with medicine reminders, BP tracking and health check features.",
+        "Implemented user-friendly flows to record health information and schedule reminders."
+      ],
+      "tech": [
+        "Swift",
+        "SwiftUI",
+        "UIKit",
+        "Core Data",
+        "Alamofire",
+        "MVVM",
+        "Firebase"
+      ],
+      "color": "#C2416B",
+      "icon": "",
+      "screenshots": [],
+      "links": {
+        "playStore": "",
+        "appStore": "",
+        "demo": "",
+        "github": ""
+      },
+      "note": ""
+    },
+    {
+      "name": "Save Status",
+      "shortName": "Save Status",
+      "platform": "Android",
+      "category": "Media",
+      "summary": "Download statuses and edit images for 4 major social media platforms.",
+      "details": [
+        "Developed a media download and image editing app supporting 4 major social media platforms.",
+        "Optimized file handling and local storage for smooth memory management during media processing."
+      ],
+      "tech": [
+        "Kotlin",
+        "MVVM",
+        "Data Binding"
+      ],
+      "color": "#D99A16",
+      "icon": "",
+      "screenshots": [],
+      "links": {
+        "playStore": "",
+        "appStore": "",
+        "demo": "",
+        "github": ""
+      },
+      "note": ""
+    },
+    {
+      "name": "Doc Reader",
+      "shortName": "Doc Reader",
+      "platform": "iOS",
+      "category": "Documents",
+      "summary": "Pick any document, then duplicate, split, lock or unlock PDFs, or save pages as images.",
+      "details": [
+        "Built a document utility app that lets users pick documents and perform multiple PDF operations.",
+        "Implemented duplicating, splitting and locking/unlocking PDFs, and saving PDF pages as images."
+      ],
+      "tech": [
+        "Swift",
+        "UIKit",
+        "SwiftUI",
+        "PDF handling",
+        "File management",
+        "MVVM"
+      ],
+      "color": "#2E75B5",
+      "icon": "",
+      "screenshots": [],
+      "links": {
+        "playStore": "",
+        "appStore": "",
+        "demo": "",
+        "github": ""
+      },
+      "note": ""
+    },
+    {
+      "name": "Asset First",
+      "shortName": "Asset First",
+      "platform": "Android",
+      "category": "Enterprise",
+      "summary": "Inventory management for companies using RFID tags and Bluetooth-connected scanners.",
+      "details": [
+        "Developed an Android app that helps companies manage their inventory using RFID tags and external scanners.",
+        "Integrated external RFID scanners to read tags and save asset data reliably through REST APIs."
+      ],
+      "tech": [
+        "Java",
+        "Retrofit",
+        "REST API",
+        "RFID",
+        "BLE"
+      ],
+      "color": "#0E7C86",
+      "icon": "",
+      "screenshots": [],
+      "links": {
+        "playStore": "",
+        "appStore": "",
+        "demo": "",
+        "github": ""
+      },
+      "note": "Built for a client, not on public app stores."
+    },
+    {
+      "name": "Attendance Management",
+      "shortName": "Attendance",
+      "platform": "Android",
+      "category": "Enterprise",
+      "summary": "Employee attendance with NFC tags and readers, with records stored on the device.",
+      "details": [
+        "Developed an Android app that efficiently handles employee attendance using NFC tags and readers.",
+        "Stored attendance records locally using Room (SQLite) database."
+      ],
+      "tech": [
+        "Java",
+        "Room (SQLite)",
+        "NFC"
+      ],
+      "color": "#5E7A8C",
+      "icon": "",
+      "screenshots": [],
+      "links": {
+        "playStore": "",
+        "appStore": "",
+        "demo": "",
+        "github": ""
+      },
+      "note": "Built for a client, not on public app stores."
+    }
+  ],
+  "experience": [
+    {
+      "company": "Quantum 4u Lab",
+      "role": "Software Developer",
+      "start": "Feb 2024",
+      "end": "Present",
+      "points": [
+        "Worked on 18 native Android and iOS apps and led projects from scratch to production with junior and senior developers.",
+        "Increased app revenue by 20% with new monetization strategies, ads and In-App Purchase scenarios.",
+        "Drove product discussions, new app ideas and app flows from concept to launch."
+      ]
+    },
+    {
+      "company": "Ruddersoft Solutions",
+      "role": "Android App Developer",
+      "start": "Sep 2022",
+      "end": "Jan 2024",
+      "points": [
+        "Built and deployed 7+ Android and Flutter apps for enterprise clients, including RFID devices connected over BLE.",
+        "Resolved 12 critical production issues, improving app stability."
+      ]
+    }
+  ]
+}

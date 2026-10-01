@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Portfolio editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F3F5F9;--surface:#FFFFFF;--ink:#1F3864;--ink-soft:#4A5878;--blue:#2E75B5;--line:#D8DFEA;--ok:#2F8F5B;--err:#B42318}
+@media (prefers-color-scheme: dark){:root{--paper:#0F1828;--surface:#162237;--ink:#E5ECF7;--ink-soft:#A8B4CC;--blue:#79B0E6;--line:#26354F;--ok:#5CC28D;--err:#F97066}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;line-height:1.5;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));padding-top:env(safe-area-inset-top,0px)}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+header{padding:28px 0 8px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px}
+h1{font-size:1.8rem;letter-spacing:-0.02em;margin:0}
+h2{font-size:1.2rem;margin:0 0 4px}
+.muted{color:var(--ink-soft);font-size:.93rem;margin:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;margin:18px 0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+label.f{display:block;margin:14px 0 0}
+label.f > span{display:block;font-weight:600;font-size:.92rem;margin-bottom:6px}
+label.f > small{display:block;color:var(--ink-soft);font-size:.82rem;margin-top:5px}
+input[type=text],input[type=url],input[type=password],input[type=email],select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);
+  border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);outline:none}
+input[type=color]{width:56px;height:40px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);padding:3px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:600;font-size:.93rem;padding:9px 16px;border-radius:999px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--blue)}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.primary:hover{background:var(--blue);border-color:var(--blue)}
+.btn.danger{color:var(--err)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.status{margin:12px 0 0;font-size:.93rem;font-weight:500}
+.status.ok{color:var(--ok)} .status.err{color:var(--err)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:24px 0 0}
+.tabs button{font:inherit;font-weight:600;font-size:.92rem;padding:9px 15px;border-radius:999px;border:1.5px solid var(--line);background:none;color:var(--ink-soft);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+details.item{border:1px solid var(--line);border-radius:14px;margin:12px 0;background:var(--surface)}
+details.item > summary{cursor:pointer;padding:14px 18px;font-weight:600;display:flex;align-items:center;gap:12px;list-style:none}
+details.item > summary::-webkit-details-marker{display:none}
+details.item > summary::after{content:"Edit";margin-left:auto;font-size:.85rem;color:var(--blue)}
+details.item[open] > summary::after{content:"Close"}
+details.item .body{padding:0 18px 18px}
+.mini{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;color:#fff;font-size:13px;font-weight:700;object-fit:cover;flex:none}
+.tag{font-size:.8rem;font-weight:600;color:var(--ink-soft)}
+.media{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-top:4px}
+.media .pv{position:relative}
+.media .pv img{display:block;height:150px;width:auto;border-radius:12px;border:1px solid var(--line);background:var(--paper)}
+.media .pv.icon img{height:72px;width:72px;border-radius:18px;object-fit:cover}
+.media .pv button{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;cursor:pointer;font-size:15px;line-height:1}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px))}
+.bar .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.dirty{font-size:.92rem;font-weight:600;color:var(--ink-soft)}
+.dirty.on{color:var(--blue)}
+code{background:var(--paper);padding:1px 6px;border-radius:6px;font-size:.88em}
+ol.help{margin:10px 0 0;padding-left:20px;color:var(--ink-soft);font-size:.92rem}
+ol.help li{margin:4px 0}
+@media (max-width:640px){.row,.row3{grid-template-columns:1fr}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Portfolio editor</h1>
+    <a class="btn" href="./" target="_blank" rel="noopener">Open my site</a>
+  </header>
+  <p class="muted">Change your apps, experience and contact details here, then publish. Your live site updates about a minute after you publish.</p>
+
+  <section class="panel" aria-labelledby="ghTitle">
+    <h2 id="ghTitle">Connect to GitHub</h2>
+    <p class="muted">Needed once on each device. The token stays in this browser and is only sent to GitHub.</p>
+    <div class="row3">
+      <label class="f"><span>GitHub username</span><input type="text" id="owner" autocomplete="username" spellcheck="false"></label>
+      <label class="f"><span>Repository</span><input type="text" id="repo" spellcheck="false"><small>For example <code>username.github.io</code></small></label>
+      <label class="f"><span>Branch</span><input type="text" id="branch" value="main" spellcheck="false"></label>
+    </div>
+    <label class="f"><span>Access token</span><input type="password" id="token" autocomplete="off" spellcheck="false">
+      <small><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create a fine-grained token</a>
+      with access to only this repository and the permission Contents: Read and write.</small></label>
+    <label style="display:flex;gap:8px;align-items:center;margin-top:12px;font-size:.93rem"><input type="checkbox" id="remember" checked> Remember on this device</label>
+    <div class="btns">
+      <button class="btn primary" id="connect">Connect and load</button>
+      <button class="btn" id="forget">Forget token</button>
+    </div>
+    <p class="status" id="ghStatus" role="status"></p>
+  </section>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="editor"></div>
+</div>
+
+<div class="bar"><div class="wrap">
+  <span class="dirty" id="dirty">No unpublished changes</span>
+  <div class="btns" style="margin:0">
+    <button class="btn" id="backup">Download backup</button>
+    <button class="btn primary" id="publish">Publish changes</button>
+  </div>
+</div></div>
+
+<script type="application/json" id="fallback-data">{"updated": "2026-10-01", "profile": {"name": "Shivam Verma", "title": "Android & iOS Developer", "intro": "I build native Android and iOS apps, from the first screen to the store release. 4+ years, 25+ production apps, and a 20% revenue lift from ads and in-app purchases.", "availability": "Open to Android and iOS developer roles", "location": "India", "email": "shivam.vrma88@gmail.com", "phone": "", "linkedin": "https://www.linkedin.com/in/shivam-verma-055332245/", "github": "", "resume": "", "whatsapp": "", "formEmail": "shivam.vrma88@gmail.com"}, "apps": [{"name": "AI Cleaner", "shortName": "AI Cleaner", "platform": "iOS", "category": "Storage cleaner", "summary": "Finds blurry photos, duplicate screenshots and redundant contacts so people can free up storage in a few taps.", "details": ["Built an iOS utility app using OpenCV to detect blurry photos, duplicate screenshots and redundant contacts.", "Added features to review and delete unwanted media, freeing up device storage and improving performance."], "tech": ["Swift", "SwiftUI", "OpenCV", "Core Data", "Alamofire", "MVVM"], "color": "#4C5FD5", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Kid Safe", "shortName": "Kid Safe", "platform": "Android", "category": "Parental control", "summary": "Lets parents set limits on a child's phone and monitor usage across devices, with real-time alerts.", "details": ["Built a parental control app that lets parents limit and monitor a child's phone usage across multiple devices.", "Implemented real-time alerts and app usage tracking logs for complete device monitoring."], "tech": ["Kotlin", "MVVM", "Dagger", "Retrofit", "FCM"], "color": "#2E9E6B", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Medicine & Health Reminder", "shortName": "Medicine", "platform": "iOS", "category": "Health", "summary": "Medicine reminders with BP tracking and health checks, plus simple flows to log readings and schedule doses.", "details": ["Developed a health utility app with medicine reminders, BP tracking and health check features.", "Implemented user-friendly flows to record health information and schedule reminders."], "tech": ["Swift", "SwiftUI", "UIKit", "Core Data", "Alamofire", "MVVM", "Firebase"], "color": "#C2416B", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Save Status", "shortName": "Save Status", "platform": "Android", "category": "Media", "summary": "Download statuses and edit images for 4 major social media platforms.", "details": ["Developed a media download and image editing app supporting 4 major social media platforms.", "Optimized file handling and local storage for smooth memory management during media processing."], "tech": ["Kotlin", "MVVM", "Data Binding"], "color": "#D99A16", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Doc Reader", "shortName": "Doc Reader", "platform": "iOS", "category": "Documents", "summary": "Pick any document, then duplicate, split, lock or unlock PDFs, or save pages as images.", "details": ["Built a document utility app that lets users pick documents and perform multiple PDF operations.", "Implemented duplicating, splitting and locking/unlocking PDFs, and saving PDF pages as images."], "tech": ["Swift", "UIKit", "SwiftUI", "PDF handling", "File management", "MVVM"], "color": "#2E75B5", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": ""}, {"name": "Asset First", "shortName": "Asset First", "platform": "Android", "category": "Enterprise", "summary": "Inventory management for companies using RFID tags and Bluetooth-connected scanners.", "details": ["Developed an Android app that helps companies manage their inventory using RFID tags and external scanners.", "Integrated external RFID scanners to read tags and save asset data reliably through REST APIs."], "tech": ["Java", "Retrofit", "REST API", "RFID", "BLE"], "color": "#0E7C86", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": "Built for a client, not on public app stores."}, {"name": "Attendance Management", "shortName": "Attendance", "platform": "Android", "category": "Enterprise", "summary": "Employee attendance with NFC tags and readers, with records stored on the device.", "details": ["Developed an Android app that efficiently handles employee attendance using NFC tags and readers.", "Stored attendance records locally using Room (SQLite) database."], "tech": ["Java", "Room (SQLite)", "NFC"], "color": "#5E7A8C", "icon": "", "screenshots": [], "links": {"playStore": "", "appStore": "", "demo": "", "github": ""}, "note": "Built for a client, not on public app stores."}], "experience": [{"company": "Quantum 4u Lab", "role": "Software Developer", "start": "Feb 2024", "end": "Present", "points": ["Worked on 18 native Android and iOS apps and led projects from scratch to production with junior and senior developers.", "Increased app revenue by 20% with new monetization strategies, ads and In-App Purchase scenarios.", "Drove product discussions, new app ideas and app flows from concept to launch."]}, {"company": "Ruddersoft Solutions", "role": "Android App Developer", "start": "Sep 2022", "end": "Jan 2024", "points": ["Built and deployed 7+ Android and Flutter apps for enterprise clients, including RFID devices connected over BLE.", "Resolved 12 critical production issues, improving app stability."]}]}</script>
+<script>
+(function(){
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  const el = (tag, attrs, kids) => {
+    const n = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      if (k === "text") n.textContent = attrs[k];
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), attrs[k]);
+      else if (attrs[k] !== undefined && attrs[k] !== null && attrs[k] !== false) n.setAttribute(k, attrs[k]);
+    }
+    (kids || []).forEach(c => c && n.append(c));
+    return n;
+  };
+
+  // ---------- state ----------
+  let data = null, sha = null, dirty = false, tab = "apps";
+  const pending = {};    // path -> base64 content waiting to be uploaded
+  const pendingURL = {}; // path -> data URL for previews
+  const store = {
+    get(k){ try { return localStorage.getItem(k) || sessionStorage.getItem(k) || ""; } catch(e){ return ""; } },
+    set(k, v, keep){ try { (keep ? localStorage : sessionStorage).setItem(k, v); (keep ? sessionStorage : localStorage).removeItem(k); } catch(e){} },
+    del(k){ try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch(e){} }
+  };
+
+  const EMPTY = { updated:"", profile:{}, apps:[], experience:[] };
+
+  // ---------- schemas ----------
+  const PROFILE = [
+    ["name","Name","text"], ["title","Title","text","Shown under your name, for example Android & iOS Developer"],
+    ["intro","Introduction","textarea","Two or three sentences about what you build"],
+    ["availability","Availability","text","For example Open to Android and iOS developer roles. Leave empty to hide."],
+    ["location","Location","text"], ["email","Email","email"],
+    ["phone","Phone","text","Shows a Call button. Leave empty to keep your number off the public site."],
+    ["whatsapp","WhatsApp number","text","With country code, for example 918860049406. Shows a WhatsApp button. Leave empty to hide."],
+    ["formEmail","Contact form sends to","email","Messages from the Send a message form arrive here. The first message asks you to confirm this address once."],
+    ["linkedin","LinkedIn link","url"], ["github","GitHub link","url"],
+    ["resume","Resume (PDF)","file","Upload a PDF to add a Download resume button"]
+  ];
+  const COLL = {
+    apps: { label:"Apps", add:"Add app", one:"app", title: a => a.name || "New app", tag: a => a.platform,
+      blank: () => ({ name:"", shortName:"", platform:"Android", category:"", summary:"", details:[], tech:[], color:"#2E75B5",
+        icon:"", screenshots:[], links:{ playStore:"", appStore:"", demo:"", github:"" }, note:"" }),
+      fields: [
+        ["name","App name","text"], ["shortName","Short name","text","Label under the icon on the phone. Keep it to one or two words."],
+        ["platform","Platform","select",null,["Android","iOS","Both"]], ["category","Category","text","For example Health or Media"],
+        ["summary","Summary","textarea","One or two sentences shown on the app row"],
+        ["details","More details","lines","One point per line. Shown when someone opens More about this app."],
+        ["tech","Built with","csv","Separate with commas, for example Kotlin, MVVM, Retrofit"],
+        ["color","Icon colour","color","Used when there is no icon image"],
+        ["icon","App icon","image"], ["screenshots","Screenshots","images","Portrait phone screenshots look best"],
+        ["links.playStore","Google Play link","url"], ["links.appStore","App Store link","url"],
+        ["links.demo","Demo video link","url","YouTube (unlisted is fine) or Google Drive"], ["links.github","Source code link","url"],
+        ["note","Note when there are no links","text","For example Built for a client, not on public app stores."]
+      ] },
+    experience: { label:"Experience", add:"Add job", one:"job", title: j => j.company || "New job", tag: j => [j.start, j.end].filter(Boolean).join(" to "),
+      blank: () => ({ company:"", role:"", start:"", end:"", points:[] }),
+      fields: [["company","Company","text"], ["role","Role","text"], ["start","Start","text","For example Feb 2024"],
+        ["end","End","text","For example Present"], ["points","Highlights","lines","One point per line. The site shows the first 3, so keep the best ones on top."]] }
+  };
+  const TABS = [["apps","Apps"], ["experience","Experience"], ["profile","Profile and contact"], ["raw","All data"]];
+
+  // ---------- helpers ----------
+  const getP = (o, p) => p.split(".").reduce((a, k) => (a == null ? a : a[k]), o);
+  const setP = (o, p, v) => { const ks = p.split("."); let a = o; ks.slice(0, -1).forEach(k => { if (a[k] == null || typeof a[k] !== "object") a[k] = {}; a = a[k]; }); a[ks[ks.length - 1]] = v; };
+  const slug = (s) => String(s || "file").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 40) || "file";
+  const stamp = () => Date.now().toString(36);
+  const initials = (n) => { const w = String(n || "").replace(/[^A-Za-z0-9 ]/g, " ").trim().split(/\s+/); return ((w[0]||"")[0]||"").toUpperCase() + ((w[1]||"")[0]||"").toUpperCase(); };
+  const srcFor = (path) => pendingURL[path] || path;
+  function b64utf8(str){ const b = new TextEncoder().encode(str); let s = ""; for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(s); }
+  function unb64utf8(b64){ const bin = atob(String(b64).replace(/\s/g, "")); const bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i); return new TextDecoder().decode(bytes); }
+  function markDirty(on = true){ dirty = on; const d = $("#dirty"); d.textContent = on ? "You have unpublished changes" : "No unpublished changes"; d.classList.toggle("on", on); }
+  function say(msg, kind){ const s = $("#ghStatus"); s.textContent = msg; s.className = "status" + (kind ? " " + kind : ""); }
+
+  function readFileAsDataURL(file){ return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(r.error); r.readAsDataURL(file); }); }
+  async function resizeImage(file, maxW, type, quality){
+    const url = await readFileAsDataURL(file);
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error("This file could not be read as an image.")); i.src = url; });
+    const scale = Math.min(1, maxW / img.naturalWidth);
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.naturalWidth * scale); c.height = Math.round(img.naturalHeight * scale);
+    const ctx = c.getContext("2d");
+    if (type === "image/jpeg"){ ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); }
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    return c.toDataURL(type, quality);
+  }
+  function queue(path, dataURL){ pending[path] = dataURL.split(",")[1]; pendingURL[path] = dataURL; }
+
+  // ---------- GitHub ----------
+  function cfg(){ return { owner: $("#owner").value.trim(), repo: $("#repo").value.trim(), branch: $("#branch").value.trim() || "main", token: $("#token").value.trim() }; }
+  function cfgReady(){ const c = cfg(); return c.owner && c.repo && c.token; }
+  async function gh(path, method, body){
+    const c = cfg();
+    const enc = path.split("/").map(encodeURIComponent).join("/");
+    const url = "https://api.github.com/repos/" + encodeURIComponent(c.owner) + "/" + encodeURIComponent(c.repo) + "/contents/" + enc +
+      (method ? "" : "?ref=" + encodeURIComponent(c.branch));
+    const r = await fetch(url, { method: method || "GET", cache: "no-store",
+      headers: Object.assign({ "Authorization": "Bearer " + c.token, "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" },
+        body ? { "Content-Type": "application/json" } : {}),
+      body: body ? JSON.stringify(body) : undefined });
+    if (!r.ok){
+      const e = new Error(explain(r.status, path)); e.status = r.status; throw e;
+    }
+    return r.json();
+  }
+  function explain(status, path){
+    const c = cfg();
+    if (status === 401) return "GitHub didn't accept the token. Copy it again in full and check it hasn't expired.";
+    if (status === 403) return "The token can't change this repository. Give it the permission Contents: Read and write for " + c.repo + ".";
+    if (status === 404) return "Couldn't find " + path + " in " + c.owner + "/" + c.repo + " on the " + c.branch + " branch. Check the username, repository and branch, and that the token has access to this repository.";
+    if (status === 409 || status === 422) return "The file changed on GitHub while you were editing. Load again, then publish.";
+    return "GitHub returned an error (" + status + "). Try again in a minute.";
+  }
+  async function putFile(path, b64, message, prevSha){
+    const c = cfg();
+    const body = { message, content: b64, branch: c.branch };
+    if (prevSha) body.sha = prevSha;
+    return gh(path, "PUT", body);
+  }
+
+  function saveCfg(){
+    const c = cfg(), keep = $("#remember").checked;
+    store.set("pf_owner", c.owner, true); store.set("pf_repo", c.repo, true); store.set("pf_branch", c.branch, true);
+    if (c.token) store.set("pf_token", c.token, keep);
+  }
+  function loadCfg(){
+    const h = location.hostname;
+    const guessOwner = h.endsWith(".github.io") ? h.split(".")[0] : "";
+    const seg = location.pathname.split("/").filter(Boolean)[0];
+    const guessRepo = guessOwner ? (seg && !/\.html$/.test(seg) ? seg : h) : "";
+    $("#owner").value = store.get("pf_owner") || guessOwner;
+    $("#repo").value = store.get("pf_repo") || guessRepo;
+    $("#branch").value = store.get("pf_branch") || "main";
+    $("#token").value = store.get("pf_token");
+  }
+
+  async function loadFromGitHub(){
+    if (!cfgReady()){ say("Add your GitHub username, repository and access token, then connect.", "err"); return; }
+    if (dirty && !confirm("Loading from GitHub will replace your unpublished changes. Continue?")) return;
+    say("Loading from GitHub…");
+    try {
+      const f = await gh("data.json");
+      data = normalise(JSON.parse(unb64utf8(f.content)));
+      sha = f.sha;
+      saveCfg();
+      markDirty(false);
+      render();
+      say("Connected. Loaded your portfolio from " + cfg().owner + "/" + cfg().repo + ".", "ok");
+    } catch (e){ say(e.message, "err"); }
+  }
+
+  async function publish(){
+    if (!data) return;
+    if (!cfgReady()){ say("Connect to GitHub first: add your username, repository and access token.", "err"); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    const btn = $("#publish"); btn.disabled = true; btn.textContent = "Publishing…";
+    try {
+      const used = new Set(JSON.stringify(data).match(/(images|files)\/[^"]+/g) || []);
+      const paths = Object.keys(pending).filter(p => used.has(p));
+      for (let i = 0; i < paths.length; i++){
+        say("Uploading file " + (i + 1) + " of " + paths.length + "…");
+        await putFile(paths[i], pending[paths[i]], "Add " + paths[i]);
+        delete pending[paths[i]];
+      }
+      data.updated = new Date().toISOString().slice(0, 10);
+      const body = b64utf8(JSON.stringify(data, null, 2) + "\n");
+      if (!sha){ try { sha = (await gh("data.json")).sha; } catch (e){ if (e.status !== 404) throw e; } }
+      say("Saving your changes…");
+      const res = await putFile("data.json", body, "Update portfolio", sha);
+      sha = res.content && res.content.sha;
+      saveCfg();
+      markDirty(false);
+      say("Published. Your site will show the changes in about a minute.", "ok");
+      if (tab === "raw") render();
+    } catch (e){ say(e.message, "err"); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    finally { btn.disabled = false; btn.textContent = "Publish changes"; }
+  }
+
+  function normalise(d){
+    d = Object.assign({}, EMPTY, d || {});
+    d.profile = d.profile || {};
+    ["apps","experience"].forEach(k => { if (!Array.isArray(d[k])) d[k] = []; });
+    d.apps.forEach(a => { a.links = a.links || {}; a.screenshots = a.screenshots || []; a.details = a.details || []; a.tech = a.tech || []; });
+    return d;
+  }
+
+  // ---------- field rendering ----------
+  function field(obj, def, onChange){
+    const [path, label, type, hint, options] = def;
+    const val = getP(obj, path);
+    const wrap = el("label", { class: "f" }, [el("span", { text: label })]);
+    const changed = () => { markDirty(); if (onChange) onChange(); };
+    let input;
+    if (type === "textarea" || type === "lines"){
+      input = el("textarea", { rows: type === "lines" ? 4 : 3 });
+      input.value = type === "lines" ? (val || []).join("\n") : (val || "");
+      input.addEventListener("input", () => { setP(obj, path, type === "lines" ? input.value.split("\n").map(s => s.trim()).filter(Boolean) : input.value); changed(); });
+    } else if (type === "csv"){
+      input = el("input", { type: "text" });
+      input.value = (val || []).join(", ");
+      input.addEventListener("input", () => { setP(obj, path, input.value.split(",").map(s => s.trim()).filter(Boolean)); changed(); });
+    } else if (type === "select"){
+      input = el("select");
+      options.forEach(o => input.append(el("option", { value: o, text: o === "Both" ? "Android & iOS" : o })));
+      input.value = val || options[0];
+      input.addEventListener("change", () => { setP(obj, path, input.value); changed(); });
+    } else if (type === "color"){
+      input = el("input", { type: "color" });
+      input.value = /^#[0-9a-f]{6}$/i.test(val || "") ? val : "#2E75B5";
+      input.addEventListener("input", () => { setP(obj, path, input.value); changed(); });
+    } else if (type === "image" || type === "images" || type === "file"){
+      wrap.append(mediaField(obj, path, type, label, changed));
+      if (hint) wrap.append(el("small", { text: hint }));
+      return wrap;
+    } else {
+      input = el("input", { type: type === "url" ? "url" : type === "email" ? "email" : "text", spellcheck: type === "text" ? "true" : "false" });
+      input.value = val || "";
+      input.addEventListener("input", () => { setP(obj, path, input.value.trim()); changed(); });
+    }
+    wrap.append(input);
+    if (hint) wrap.append(el("small", { text: hint }));
+    return wrap;
+  }
+
+  function mediaField(obj, path, type, label, changed){
+    const box = el("div", { class: "media" });
+    const name = slug(obj.name || obj.title || "portfolio");
+    const draw = () => {
+      box.textContent = "";
+      const val = getP(obj, path);
+      if (type === "image" && val){
+        box.append(el("div", { class: "pv icon" }, [el("img", { src: srcFor(val), alt: "App icon" }),
+          el("button", { type: "button", "aria-label": "Remove icon", text: "×", onclick: (e) => { e.preventDefault(); setP(obj, path, ""); changed(); draw(); } })]));
+      }
+      if (type === "images"){
+        (val || []).forEach((p, i) => box.append(el("div", { class: "pv" }, [el("img", { src: srcFor(p), alt: "Screenshot " + (i + 1) }),
+          el("button", { type: "button", "aria-label": "Remove screenshot " + (i + 1), text: "×", onclick: (e) => { e.preventDefault(); val.splice(i, 1); changed(); draw(); } })])));
+      }
+      if (type === "file" && val){
+        box.append(el("span", { class: "tag", text: "Current file: " + val.split("/").pop() }),
+          el("button", { type: "button", class: "btn danger", text: "Remove", onclick: (e) => { e.preventDefault(); setP(obj, path, ""); changed(); draw(); } }));
+      }
+      const accept = type === "file" ? "application/pdf" : "image/*";
+      const btnText = type === "images" ? "Add screenshots" : type === "file" ? (val ? "Replace PDF" : "Upload PDF") : (val ? "Replace icon" : "Choose icon");
+      const inp = el("input", { type: "file", accept, multiple: type === "images" ? "" : null, "aria-label": label });
+      inp.addEventListener("change", async () => {
+        const files = Array.from(inp.files || []);
+        try {
+          for (let k = 0; k < files.length; k++){
+            const f = files[k];
+            if (type === "file"){
+              if (f.size > 10 * 1024 * 1024) throw new Error("This PDF is over 10 MB. Export a smaller version and try again.");
+              const p = "files/resume-" + stamp() + ".pdf"; queue(p, await readFileAsDataURL(f)); setP(obj, path, p);
+            } else if (type === "image"){
+              const p = "images/icon-" + name + "-" + stamp() + ".png"; queue(p, await resizeImage(f, 512, "image/png")); setP(obj, path, p);
+            } else {
+              const p = "images/shot-" + name + "-" + stamp() + k + ".jpg"; queue(p, await resizeImage(f, 1000, "image/jpeg", 0.85));
+              const arr = getP(obj, path) || []; arr.push(p); setP(obj, path, arr);
+            }
+          }
+          changed(); draw();
+        } catch (err){ alert(err.message); }
+      });
+      box.append(el("span", { class: "btn filebtn", text: btnText }, [inp]));
+    };
+    draw();
+    return box;
+  }
+
+  // ---------- panels ----------
+  function render(){
+    const t = $("#tabs"); t.textContent = "";
+    TABS.forEach(([k, l]) => t.append(el("button", { role: "tab", "aria-selected": String(k === tab), text: l, onclick: () => { tab = k; render(); } })));
+    const ed = $("#editor"); ed.textContent = "";
+    if (!data){ ed.append(el("p", { class: "muted", text: "Connect to GitHub to load your portfolio." })); return; }
+    if (tab === "profile") ed.append(profilePanel());
+    else if (tab === "raw") ed.append(rawPanel());
+    else ed.append(collectionPanel(tab));
+  }
+
+  function profilePanel(){
+    const p = el("section", { class: "panel" }, [el("h2", { text: "Profile and contact" }), el("p", { class: "muted", text: "Shown at the top of your site and in Get in touch." })]);
+    PROFILE.forEach(def => p.append(field(data.profile, def)));
+    return p;
+  }
+
+  function collectionPanel(key, openIndex){
+    const C = COLL[key], list = data[key];
+    const p = el("section", { class: "panel" }, [el("h2", { text: C.label }),
+      el("p", { class: "muted", text: key === "apps" ? "The order here is the order on your site and on the phone." : "The order here is the order on your site." })]);
+    list.forEach((item, i) => {
+      const head = el("summary", null, []);
+      const paintHead = () => {
+        head.textContent = "";
+        if (key === "apps"){
+          head.append(item.icon ? el("img", { class: "mini", src: srcFor(item.icon), alt: "" }) :
+            el("span", { class: "mini", style: "background:" + (item.color || "#2E75B5"), text: initials(item.name) }));
+        }
+        head.append(el("span", { text: C.title(item) }), el("span", { class: "tag", text: C.tag(item) || "" }));
+      };
+      paintHead();
+      const body = el("div", { class: "body" });
+      C.fields.forEach(def => body.append(field(item, def, paintHead)));
+      body.append(el("div", { class: "btns" }, [
+        el("button", { type: "button", class: "btn", text: "Move up", disabled: i === 0 ? "" : null, onclick: () => move(key, i, -1) }),
+        el("button", { type: "button", class: "btn", text: "Move down", disabled: i === list.length - 1 ? "" : null, onclick: () => move(key, i, 1) }),
+        el("button", { type: "button", class: "btn danger", text: "Remove this " + C.one, onclick: () => {
+          if (!confirm("Remove " + C.title(item) + "? This takes effect when you publish.")) return;
+          list.splice(i, 1); markDirty(); rerender(key); } })
+      ]));
+      p.append(el("details", { class: "item", open: i === openIndex ? "" : null }, [head, body]));
+    });
+    if (!list.length) p.append(el("p", { class: "muted", text: "Nothing here yet. Add your first " + C.one + "." }));
+    p.append(el("div", { class: "btns" }, [el("button", { type: "button", class: "btn primary", text: C.add, onclick: () => {
+      list.push(C.blank()); markDirty(); rerender(key, list.length - 1); } })]));
+    return p;
+  }
+  function rerender(key, openIndex){ const ed = $("#editor"); ed.textContent = ""; ed.append(collectionPanel(key, openIndex)); }
+  function move(key, i, d){ const L = data[key], j = i + d; if (j < 0 || j >= L.length) return; [L[i], L[j]] = [L[j], L[i]]; markDirty(); rerender(key, j); }
+
+  function rawPanel(){
+    const ta = el("textarea", { rows: 22, spellcheck: "false", style: "font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px" });
+    ta.value = JSON.stringify(data, null, 2);
+    const msg = el("p", { class: "status", role: "status" });
+    return el("section", { class: "panel" }, [el("h2", { text: "All data" }),
+      el("p", { class: "muted", text: "Everything on your site as JSON. Edit with care, then apply." }), ta,
+      el("div", { class: "btns" }, [el("button", { type: "button", class: "btn primary", text: "Apply changes", onclick: () => {
+        try { data = normalise(JSON.parse(ta.value)); markDirty(); msg.textContent = "Applied. Publish to put it live."; msg.className = "status ok"; }
+        catch (e){ msg.textContent = "This isn't valid JSON: " + e.message; msg.className = "status err"; }
+      } })]), msg]);
+  }
+
+  // ---------- wiring ----------
+  $("#connect").addEventListener("click", loadFromGitHub);
+  $("#forget").addEventListener("click", () => { store.del("pf_token"); $("#token").value = ""; say("Token removed from this device.", "ok"); });
+  $("#publish").addEventListener("click", publish);
+  $("#backup").addEventListener("click", () => {
+    if (!data) return;
+    const a = el("a", { href: URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })), download: "data.json" });
+    document.body.append(a); a.click(); a.remove();
+  });
+  window.addEventListener("beforeunload", (e) => { if (dirty){ e.preventDefault(); e.returnValue = ""; } });
+
+  loadCfg();
+  (async () => {
+    if (cfgReady()) { await loadFromGitHub(); if (data) return; }
+    try {
+      const r = await fetch("data.json?v=" + Date.now(), { cache: "no-store" });
+      if (!r.ok) throw new Error();
+      data = normalise(await r.json());
+      say("Showing your site's current content. Connect to GitHub to publish changes.");
+    } catch (e){
+      try { data = normalise(JSON.parse(document.getElementById("fallback-data").textContent)); }
+      catch (e2){ data = normalise(null); }
+      say("Showing the starting content. Connect to GitHub to load and publish your live portfolio.");
+    }
+    render();
+  })();
+})();
+</script>
+</body>
+</html>
